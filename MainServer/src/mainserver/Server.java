@@ -6,8 +6,10 @@ package mainserver;
 
 /**
  *
- * @author vicbo
+ * @author Ilenia Pinna
  */
+
+//librerie 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,50 +21,49 @@ import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author MC
- * @version dic 2022
- */
+//istanzio la classe server
 public class Server{
-    ServerSocket connection;
-    Socket clientSocket;
-    int porta;
-    InputStream is;
-    OutputStream os;
-    
+    ServerSocket connection;      //comando all'interno del server che serve per stabilire la connessione
+    Socket clientSocket;          //comando all'interno del client che serve per stabilire la connessione
+    int porta;                    
+    InputStream is;               //comando che serve per leggere valori 
+    OutputStream os;              //comando che serve per scrivere valori 
+
+    //costruttore (all'interno vado a creare una connessione)
     public Server(int porta){
         this.porta = porta;
         try {
             connection = new ServerSocket(porta);
-        } catch (BindException ex) {
+        } catch (BindException ex) {  
            System.err.println(ex.toString());
         }catch(IOException ex){
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);   
         }
     }
     
-    
+//metodo attendi 
     public void attendi(){
         
         try {
             clientSocket = connection.accept();
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Connessione non riuscita");
         }
     }
-    
+   
+//metodo leggi
     public void leggi(){
-       System.out.println("attesa di lettura");
-        String messaggioRicevuto;
+       System.out.println("Attesa di lettura");
+        String messaggioRicevuto;   
         
         
         try {
-            System.out.println("attesa di lettura");
-        BufferedReader br = new BufferedReader(
-        new InputStreamReader(clientSocket.getInputStream()));
+            System.out.println("Attesa di lettura");
+            BufferedReader br = new BufferedReader(        //va a leggere il messaggio inviato dal client
+            new InputStreamReader(clientSocket.getInputStream()));
             messaggioRicevuto = br.readLine();
-        System.out.println("CLIENT: " + messaggioRicevuto);
+            System.out.println("CLIENT: " + messaggioRicevuto);
         } catch (Exception ex) {
             System.out.println("attesa di lettura");
            System.out.println(ex.toString());
